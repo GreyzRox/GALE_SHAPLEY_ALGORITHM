@@ -35,8 +35,6 @@ capacite = PrefEtuSpe.Capacite_spe("./data/PrefSpe.txt")
 
 #Question 3
 
-debut = time.time()
-
 def galeshapley_etu(dico_etu,dico_spe,capacite):
     etu_libre = list(dico_etu.keys())                                                                       # liste des etudiants libres
     heapq.heapify(etu_libre)                                                                                # On trie pour avoir le min le plus a gauche
@@ -44,12 +42,12 @@ def galeshapley_etu(dico_etu,dico_spe,capacite):
     files_spe = {spe: [] for spe in dico_spe}                                                               # Dictionnaire contenant chaque specialité en clé, et une liste vide pour l'instant
 
     while etu_libre:
-        print("liste couple ", couple_etu_spe)                                              
+        print("liste couple : ", couple_etu_spe)                                              
         etu = heapq.heappop(etu_libre)                                                                      # Prend le premiere element de la liste, le stock et le suppr de la liste
         for spe in dico_etu[etu]:  
-            print(etu, " propose a ", spe)                                                                  # pour chaque specialite dans la liste des specialite de etu
+            print("Etu ", etu, " propose a Spe ", spe)                                                                  # pour chaque specialite dans la liste des specialite de etu
             if capacite[spe] > 0:                                                                           # Si la specialite peut accueillir un nouvel etudiant
-                print(spe, " accepte")                                                                          
+                print("Spe ", spe, " accepte")                                                                          
                 couple_etu_spe[etu] = spe                                                                   # On met dans le dictionnaire : etudiant,specialite
                 heapq.heappush(files_spe[spe], (recherche_classement_spe(dico_spe, etu, spe), etu))         # on renvoie un tuple qui contient le classement de l'etudiant dans la specialite, et l'etudiant en question
                 capacite[spe] -= 1                                                                          # On decremente la capacite de la specialite
@@ -62,8 +60,8 @@ def galeshapley_etu(dico_etu,dico_spe,capacite):
                 # Donc en gros, dans files_spe, on définit le pire étudiant
                 # sur celui qui a le "max" en termes de classement sur la spe
                 if recherche_classement_spe(dico_spe,etu,spe) < pire_etudiant[0]:                           # Si le classement de l'etudiant dans la spe est meilleure que celui du pire etudiant selectionné, alors on remplace
-                    print (spe," accepte")
-                    print(pire_etudiant[1]," est enleve de la spe ", spe)
+                    print ("Spe ", spe," accepte")
+                    print("Etu ", pire_etudiant[1]," est enleve de la spe ", spe)
                     files_spe[spe].remove(pire_etudiant)                                                    # On enleve le pire etudiant des specialités
                     heapq.heappush(files_spe[spe], (recherche_classement_spe(dico_spe, etu, spe), etu))     # On ajoute le nouvel etudiant dans la file de la specialité
                     couple_etu_spe.pop(pire_etudiant[1])                                                    # On supprime l'ancien couple                       
@@ -74,14 +72,55 @@ def galeshapley_etu(dico_etu,dico_spe,capacite):
                     print(spe," refuse à", etu)
     return couple_etu_spe                                                                                                                                                                                                # A l'aide, j'ai recodé cet algo 30 fois
 
-fin = time.time()
+print("Côté étudiant  :")
+debut = time.time()
 
 print(galeshapley_etu(dico_etu,dico_spe,capacite))
 
+fin = time.time()
 temps = fin-debut
-print(temps," secondes")
+print("Temps de l'algo côté étu : ",temps," secondes")
 
-#Question 4 : à completer
+#Question 4 :
+
+def galeshapley_spe(dico_etu,dico_spe,capacite):
+    spe_libre = list(dico_spe.keys())
+    heapq.heapify(spe_libre)
+    couple_etu_spe =  {}
+
+    while spe_libre:
+        print("liste couple : ", couple_etu_spe)
+        spe = heapq.heappop(spe_libre)
+        for etu in dico_spe[spe]:
+            print("Spe ",spe, " propose à Etu ", etu)
+            if etu not in couple_etu_spe:
+                print("Etu ", etu, " accepte")
+                couple_etu_spe[etu]=spe
+                capacite[spe] -=1
+                if capacite[spe]>0:
+                    heapq.heappush(spe_libre, spe) # reste libre si encore de la place
+                break
+            else:
+                spe_actuelle = couple_etu_spe[etu]
+                if recherche_classement_spe(dico_etu, spe, etu)<recherche_classement_spe(dico_etu, spe_actuelle, etu):
+                    print("Etu ",etu, "accepte")
+                    print("Spe", spe_actuelle, "est remplacé ")
+                    couple_etu_spe[etu] = spe
+                    capacite[spe] -=1
+                    capacite[spe_actuelle] +=1
+                    heapq.heappush(spe_libre,spe_actuelle)
+                    break
+                else:
+                    print("Etu", etu, " refuse Spe ", spe)
+
+    return couple_etu_spe
+
+print("Côté parcours :")
+debut = time.time()
+print(galeshapley_spe(dico_etu,dico_spe,capacite))
+
+fin = time.time()
+print("Temps de l'algo côté parcours : ",fin-debut, "secondes")
 
 #Question 5 : voir rapport.md
 
