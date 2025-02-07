@@ -45,6 +45,8 @@ def galeshapley_etu(dico_etu,dico_spe,capacite):
         etu = heapq.heappop(etu_libre)                                                                      # Prend le premiere element de la liste, le stock et le suppr de la liste
         for spe in dico_etu[etu]:                                                                           # pour chaque specialite dans la liste des specialite de etu
             if capacite[spe] > 0:                                                                           # Si la specialite peut accueillir un nouvel etudiant
+                print(etu, " propose a ", spe)
+                print(spe, " accepte")                                                                          
                 couple_etu_spe[etu] = spe                                                                   # On met dans le dictionnaire : etudiant,specialite
                 heapq.heappush(files_spe[spe], (recherche_classement_spe(dico_spe, etu, spe), etu))         # on renvoie un tuple qui contient le classement de l'etudiant dans la specialite, et l'etudiant en question
                 capacite[spe] -= 1                                                                          # On decremente la capacite de la specialite
@@ -57,6 +59,7 @@ def galeshapley_etu(dico_etu,dico_spe,capacite):
                 # Donc en gros, dans files_spe, on définit le pire étudiant
                 # sur celui qui a le "max" en termes de classement sur la spe
                 if recherche_classement_spe(dico_spe,etu,spe) < pire_etudiant[0]:                           # Si le classement de l'etudiant dans la spe est meilleure que celui du pire etudiant selectionné, alors on remplace
+                    print(pire_etudiant[1]," est enleve de la spe ", spe)
                     files_spe[spe].remove(pire_etudiant)                                                    # On enleve le pire etudiant des specialités
                     heapq.heappush(files_spe[spe], (recherche_classement_spe(dico_spe, etu, spe), etu))     # On ajoute le nouvel etudiant dans la file de la specialité
                     couple_etu_spe.pop(pire_etudiant[1])                                                    # On supprime l'ancien couple                       
@@ -75,3 +78,5 @@ print(temps," secondes")
 # 9.5367431640625e-07  secondes soit 0,00095367431640625 ms pour un algo de gale shaplay de 11 etudiants sur 9 specialités
 
 #Q4 : à completer
+
+
