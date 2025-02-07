@@ -43,9 +43,9 @@ def galeshapley_etu(dico_etu,dico_spe,capacite):
 
     while etu_libre:                                               
         etu = heapq.heappop(etu_libre)                                                                      # Prend le premiere element de la liste, le stock et le suppr de la liste
-        for spe in dico_etu[etu]:                                                                           # pour chaque specialite dans la liste des specialite de etu
+        for spe in dico_etu[etu]:  
+            print(etu, " propose a ", spe)                                                                         # pour chaque specialite dans la liste des specialite de etu
             if capacite[spe] > 0:                                                                           # Si la specialite peut accueillir un nouvel etudiant
-                print(etu, " propose a ", spe)
                 print(spe, " accepte")                                                                          
                 couple_etu_spe[etu] = spe                                                                   # On met dans le dictionnaire : etudiant,specialite
                 heapq.heappush(files_spe[spe], (recherche_classement_spe(dico_spe, etu, spe), etu))         # on renvoie un tuple qui contient le classement de l'etudiant dans la specialite, et l'etudiant en question
@@ -66,7 +66,8 @@ def galeshapley_etu(dico_etu,dico_spe,capacite):
                     couple_etu_spe[etu] = spe                                                               # On ajoute le nouveau
                     heapq.heappush(etu_libre, pire_etudiant[1])                                             # Le pire etudiant redevient libre (mskn)
                     break
-    
+                else :
+                    print(spe," refuse à", etu)
     return couple_etu_spe                                                                                                                                                                                                # A l'aide, j'ai recodé cet algo 30 fois
 
 fin = time.time()
