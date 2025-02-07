@@ -41,10 +41,11 @@ def galeshapley_etu(dico_etu,dico_spe,capacite):
     couple_etu_spe =  {}                                                                                    # dico des couple etudiant-spe
     files_spe = {spe: [] for spe in dico_spe}                                                               # Dictionnaire contenant chaque specialité en clé, et une liste vide pour l'instant
 
-    while etu_libre:                                               
+    while etu_libre:
+        print("liste couple ", couple_etu_spe)                                              
         etu = heapq.heappop(etu_libre)                                                                      # Prend le premiere element de la liste, le stock et le suppr de la liste
         for spe in dico_etu[etu]:  
-            print(etu, " propose a ", spe)                                                                         # pour chaque specialite dans la liste des specialite de etu
+            print(etu, " propose a ", spe)                                                                  # pour chaque specialite dans la liste des specialite de etu
             if capacite[spe] > 0:                                                                           # Si la specialite peut accueillir un nouvel etudiant
                 print(spe, " accepte")                                                                          
                 couple_etu_spe[etu] = spe                                                                   # On met dans le dictionnaire : etudiant,specialite
@@ -59,6 +60,7 @@ def galeshapley_etu(dico_etu,dico_spe,capacite):
                 # Donc en gros, dans files_spe, on définit le pire étudiant
                 # sur celui qui a le "max" en termes de classement sur la spe
                 if recherche_classement_spe(dico_spe,etu,spe) < pire_etudiant[0]:                           # Si le classement de l'etudiant dans la spe est meilleure que celui du pire etudiant selectionné, alors on remplace
+                    print (spe," accepte")
                     print(pire_etudiant[1]," est enleve de la spe ", spe)
                     files_spe[spe].remove(pire_etudiant)                                                    # On enleve le pire etudiant des specialités
                     heapq.heappush(files_spe[spe], (recherche_classement_spe(dico_spe, etu, spe), etu))     # On ajoute le nouvel etudiant dans la file de la specialité
