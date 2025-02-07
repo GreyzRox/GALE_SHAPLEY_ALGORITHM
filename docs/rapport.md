@@ -74,4 +74,4 @@ Concernant la complexité :
 | **Gestion de l'éviction d'un étudiant**    | `max(files_spe[spe])` pour trouver l'étudiant le moins bien classé | \( O(\log k) \)               |
 |                                            | `heapq.heappush` pour ajouter un nouvel étudiant dans la spécialité | \( O(\log k) \)             |
 |                                            | `heapq.heappush` pour réajouter un étudiant libre            | \( O(\log n) \)                   |
-| **Complexité totale**                      | Itérations sur tous les étudiants et toutes les spécialités | \( O(n \cdot k \cdot \log k) \)   |
+| **Complexité totale**                      | Itérations sur tous les étudiants et toutes les spécialités | \( O(n * k * \log(k)) \)   |
