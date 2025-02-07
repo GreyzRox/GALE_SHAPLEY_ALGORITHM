@@ -70,8 +70,8 @@ Concernant la complexité :
 | **Boucle principale**                      | Boucle sur tous les étudiants                                 | \( n \) itérations                |
 | **Parcours des spécialités pour chaque étudiant** | Boucle sur les spécialités de chaque étudiant                | \( k \) itérations par étudiant   |
 | **Vérification de la capacité d'une spécialité** | Vérification de la capacité de la spécialité                | \( O(1) \)                        |
-| **Ajout d'un étudiant dans une spécialité** | `heapq.heappush` pour ajouter un étudiant à une spécialité    | \( O(\log k) \)                   |
-| **Gestion de l'éviction d'un étudiant**    | `max(files_spe[spe])` pour trouver l'étudiant le moins bien classé | \( O(\log k) \)               |
-|                                            | `heapq.heappush` pour ajouter un nouvel étudiant dans la spécialité | \( O(\log k) \)             |
-|                                            | `heapq.heappush` pour réajouter un étudiant libre            | \( O(\log n) \)                   |
-| **Complexité totale**                      | Itérations sur tous les étudiants et toutes les spécialités | \( O(n * k * \log(k)) \)   |
+| **Ajout d'un étudiant dans une spécialité** | `heapq.heappush` pour ajouter un étudiant à une spécialité    | \( O(log k) \)                   |
+| **Gestion de l'éviction d'un étudiant**    | `max(files_spe[spe])` pour trouver l'étudiant le moins bien classé | \( O(log k) \)               |
+|                                            | `heapq.heappush` pour ajouter un nouvel étudiant dans la spécialité | \( O(log k) \)             |
+|                                            | `heapq.heappush` pour réajouter un étudiant libre            | \( O(log n) \)                   |
+| **Complexité totale**                      | Itérations sur tous les étudiants et toutes les spécialités | \( O(n * k * log(k)) \)   |
