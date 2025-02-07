@@ -33,6 +33,8 @@ capacite = PrefEtuSpe.Capacite_spe("./data/PrefSpe.txt")
 # liste_spe ==== {0: [7, 9, 5, 4, 3, 1, 0, 10, 6, 8, 2], 1: [7, 5, 9, 4, 3, 1, 0, 10, 8, 6, 2], 2: [3, 9, 5, 4, 7, 6, 1, 0, 10, 8, 2], 3: [7, 9, 5, 4, 3, 1, 0, 6, 10, 8, 2], 4: [10, 3, 0, 4, 5, 6, 7, 8, 9, 1, 2], 5: [1, 0, 3, 4, 5, 6, 7, 2, 9, 10, 8], 6: [0, 1, 3, 4, 5, 6, 7, 2, 8, 10, 9], 7: [7, 6, 9, 5, 4, 3, 1, 0, 10, 8, 2], 8: [1, 0, 3, 4, 5, 6, 7, 2, 9, 10, 8]}
 # capacite  ==== [2, 1, 1, 1, 1, 1, 1, 1, 2]                                                                                                                                                                                # C'etait un enfer à coder
 
+#Question 3
+
 debut = time.time()
 
 def galeshapley_etu(dico_etu,dico_spe,capacite):
@@ -79,6 +81,13 @@ print(galeshapley_etu(dico_etu,dico_spe,capacite))
 temps = fin-debut
 print(temps," secondes")
 
-#Q4 : à completer
+#Question 4 : à completer
+
+#Question 5 : voir rapport.md
+
+#Question 6 :
 
 
+#TODO
+def paire_instable():
+    return

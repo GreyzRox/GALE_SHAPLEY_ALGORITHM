@@ -5,6 +5,7 @@ Created on Fri Jan 24 16:12:30 2025
 
 @author: 28710554
 """
+#Question 1
 
 def PrefEtu(s):
     monFichier = open(s, "r")
