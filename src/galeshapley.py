@@ -72,6 +72,6 @@ print(galeshapley_etu(dico_etu,dico_spe,capacite))
 
 temps = fin-debut
 print(temps," secondes")
-# 9.5367431640625e-07  secondes soit 0,00095367431640625 ms pour un algo de gale shaplay de 11 agents sur 9 specialités
+# 9.5367431640625e-07  secondes soit 0,00095367431640625 ms pour un algo de gale shaplay de 11 etudiants sur 9 specialités
 
 #Q4 : à completer
