@@ -114,7 +114,7 @@ print("Temps de l'algo côté parcours : ",fin-debut, "secondes")
 #Question 6 :
 
 # {7: 7, 5: 0, 3: 8, 9: 2, 10: 4, 1: 5, 0: 6, 4: 1}
-#TODO
+
 def paire_instable(couple_etu_spe,pref_etu,pref_spe):
     p_instable = []
     for etu_courant in couple_etu_spe:
@@ -129,31 +129,6 @@ def paire_instable(couple_etu_spe,pref_etu,pref_spe):
     
     return p_instable
 
-print("Paire instable côté étu : ",paire_instable(affectation_etu,liste_etu,liste_spe))
-print("Paire instable côté spé : ",paire_instable(affectation_spe,liste_etu,liste_spe))
+#print("Paire instable côté étu : ",paire_instable(affectation_etu,liste_etu,liste_spe))
+#print("Paire instable côté spé : ",paire_instable(affectation_spe,liste_etu,liste_spe))
 
-# Question 7
-
-def genere_pref_etu(n):
-    liste_spe = [0,1,2,3,4,5,6,7,8]
-    liste_pref_etu = []
-    i = 0
-    for i in range(n):
-        temp = liste_spe[:]
-        random.shuffle(temp)
-        liste_pref_etu.append(temp)
-    return liste_pref_etu
-
-def genere_pref_spe(n):
-    liste_spe = [0,1,2,3,4,5,6,7,8]
-    liste_etu = list(range(n+1))
-    liste_pref_spe = []
-    for i in range(len(liste_spe)):
-        temp = liste_etu[:]
-        random.shuffle(temp)
-        liste_pref_spe.append(temp)
-    return liste_pref_spe
-
-print(genere_pref_etu(10))
-print("\n")
-print(genere_pref_spe(10))
