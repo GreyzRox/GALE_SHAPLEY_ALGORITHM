@@ -63,14 +63,14 @@ def galeshapley_etu(dico_etu,dico_spe,capacite):
                     continue
     return couple_etu_spe                                                                                                                                                                                                # A l'aide, j'ai recodé cet algo 30 fois
 
-print("Côté étudiant  :")
-debut = time.time()
-affectation_etu = galeshapley_etu(dico_etu,dico_spe,capacite)
-print(affectation_etu)
+#print("Côté étudiant  :")
+#debut = time.time()
+#affectation_etu = galeshapley_etu(dico_etu,dico_spe,capacite)
+#print(affectation_etu)
 
-fin = time.time()
-temps = fin-debut
-print("Temps de l'algo côté étu : ",temps," secondes")
+#fin = time.time()
+#temps = fin-debut
+#print("Temps de l'algo côté étu : ",temps," secondes")
 
 #Question 4 :
 
@@ -101,13 +101,13 @@ def galeshapley_spe(dico_etu,dico_spe,capacite):
 
     return couple_etu_spe
 
-print("Côté parcours :")
-debut = time.time()
-affectation_spe = galeshapley_spe(dico_etu,dico_spe,capacite)
-print(affectation_spe)
+#print("Côté parcours :")
+#debut = time.time()
+#affectation_spe = galeshapley_spe(dico_etu,dico_spe,capacite)
+#print(affectation_spe)
 
-fin = time.time()
-print("Temps de l'algo côté parcours : ",fin-debut, "secondes")
+#fin = time.time()
+#print("Temps de l'algo côté parcours : ",fin-debut, "secondes")
 
 #Question 5 : voir rapport.md
 

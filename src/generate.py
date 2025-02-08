@@ -45,5 +45,5 @@ def genere_capacite(n,nb_spe):
     liste_capacite = [nb_deterministe] * nb_spe         # Creation d'une liste contenant nb_spe element, chacun a comme valeur nb_deterministe
 
     for i in range(reste):                              # Cette boucle sert a attribué aléatoirement à une spécialité une place en plus, vis a vis du reste, au début je voulais faire que ce soit les premieres spé qui aient cette capacité en plus, mais je pense que ca aurait été inéquitable
-        liste_capacite[random.randint(0,nb_spe)] += 1
+        liste_capacite[random.randint(0,nb_spe-1)] += 1
     return liste_capacite
