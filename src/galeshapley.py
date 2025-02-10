@@ -64,6 +64,28 @@ def galeshapley_etu(dico_etu,dico_spe,capacite):
                     continue
     return couple_etu_spe                                                                                                                                                                                                # A l'aide, j'ai recodé cet algo 30 fois
 
+
+def galeshapley_etu(liste_etu,liste_spe,capacite):
+    etu_libre = [i for i in range(len(liste_etu))]
+    couple_etu_spe =  []
+    listes_etu_affilie_indice = [[] for _ in range(len(liste_spe))]
+
+    while etu_libre:
+        etu = etu_libre.pop(0)
+        spe_etu = liste_spe[etu]
+        spe_actuelle = spe_etu.popleft()
+        if capacite[spe_actuelle] > 0:
+            couple_etu_spe.append(spe_actuelle)
+            listes_etu_affilie_indice[spe_actuelle].append(etu)
+        else:
+            if max(listes_etu_affilie_indice[spe_actuelle] < etu):
+                
+            else:
+                etu_libre.append(etu)
+    return couple_etu_spe        
+
+
+# Il faut pas que etu_libre soit un tas
 #print("Côté étudiant  :")
 #debut = time.time()
 #affectation_etu = galeshapley_etu(dico_etu,dico_spe,capacite)
