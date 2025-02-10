@@ -7,6 +7,7 @@ Created on Fri Jan 24 17:19:01 2025
 """
 import PrefEtuSpe
 import heapq
+from collections import deque
 import time
 import random
 
@@ -22,13 +23,13 @@ def recherche_classement_spe(dico,i,spe):
             return rang
     return -1
 
-liste_etu = PrefEtuSpe.PrefEtu("./data/PrefEtu.txt")
+liste_etu = PrefEtuSpe.PrefEtu("../data/PrefEtu.txt")
 dico_etu = convertisseur_liste_dico(liste_etu)
 
-liste_spe = PrefEtuSpe.PrefSpe("./data/PrefSpe.txt")
+liste_spe = PrefEtuSpe.PrefSpe("../data/PrefSpe.txt")
 dico_spe = convertisseur_liste_dico(liste_spe)
 
-capacite = PrefEtuSpe.Capacite_spe("./data/PrefSpe.txt")
+capacite = PrefEtuSpe.Capacite_spe("../data/PrefSpe.txt")
 
 # dico_etu ==== {0: [5, 7, 6, 8, 3, 2, 0, 1, 4], 1: [6, 5, 0, 4, 7, 2, 8, 3, 1], 2: [4, 0, 7, 2, 8, 3, 1, 6, 5], 3: [6, 5, 7, 0, 8, 4, 3, 1, 2], 4: [1, 6, 7, 5, 0, 2, 4, 8, 3], 5: [0, 7, 4, 2, 8, 3, 1, 6, 5], 6: [5, 7, 6, 2, 8, 3, 0, 1, 4], 7: [7, 0, 4, 2, 8, 3, 1, 6, 5], 8: [5, 7, 6, 2, 8, 3, 0, 1, 4], 9: [2, 6, 5, 8, 3, 1, 4, 7, 0], 10: [6, 4, 0, 8, 3, 1, 5, 2, 7]}
 # dico_spe ==== {0: [7, 9, 5, 4, 3, 1, 0, 10, 6, 8, 2], 1: [7, 5, 9, 4, 3, 1, 0, 10, 8, 6, 2], 2: [3, 9, 5, 4, 7, 6, 1, 0, 10, 8, 2], 3: [7, 9, 5, 4, 3, 1, 0, 6, 10, 8, 2], 4: [10, 3, 0, 4, 5, 6, 7, 8, 9, 1, 2], 5: [1, 0, 3, 4, 5, 6, 7, 2, 9, 10, 8], 6: [0, 1, 3, 4, 5, 6, 7, 2, 8, 10, 9], 7: [7, 6, 9, 5, 4, 3, 1, 0, 10, 8, 2], 8: [1, 0, 3, 4, 5, 6, 7, 2, 9, 10, 8]}
@@ -75,29 +76,41 @@ def galeshapley_etu(dico_etu,dico_spe,capacite):
 #Question 4 :
 
 def galeshapley_spe(dico_etu,dico_spe,capacite):
-    spe_libre = list(dico_spe.keys())
-    heapq.heapify(spe_libre)
+    
+    # Utilisation de deque pour les spécialités libres
+    spe_libre = deque([spe for spe in dico_spe])
+    
+   # Créer un dictionnaire pour suivre les préférences des spécialités pour chaque étudiant
+    spe_preferences = {spe: deque(dico_spe[spe]) for spe in dico_spe}
+    
     couple_etu_spe =  {}
 
     while spe_libre:
-        spe = heapq.heappop(spe_libre)
-        for etu in dico_spe[spe]:
-            if etu not in couple_etu_spe:
-                couple_etu_spe[etu]=spe
+        spe = spe_libre.popleft()
+        
+        if capacite[spe] == 0:
+            continue
+        
+        # Extraire l'étudiant préféré (le premier de la liste de préférences de la spécialité)
+        etu = spe_preferences[spe].popleft()
+        
+        if etu not in couple_etu_spe:
+            couple_etu_spe[etu]=spe
+            capacite[spe] -=1
+            if capacite[spe]>0:
+               spe_libre.append(spe)
+        else:
+            spe_actuelle = couple_etu_spe[etu]
+            if recherche_classement_spe(dico_etu, spe, etu)<recherche_classement_spe(dico_etu, spe_actuelle, etu):
+                couple_etu_spe[etu] = spe
                 capacite[spe] -=1
-                if capacite[spe]>0:
-                    heapq.heappush(spe_libre, spe) # reste libre si encore de la place
-                break
+                capacite[spe_actuelle] +=1
+                if capacite[spe_actuelle] > 0:
+                    spe_libre.append(spe_actuelle)  # On remet l'ancienne spécialité dans la deque si elle a encore de la place
+                if capacite[spe] > 0:
+                    spe_libre.append(spe)
             else:
-                spe_actuelle = couple_etu_spe[etu]
-                if recherche_classement_spe(dico_etu, spe, etu)<recherche_classement_spe(dico_etu, spe_actuelle, etu):
-                    couple_etu_spe[etu] = spe
-                    capacite[spe] -=1
-                    capacite[spe_actuelle] +=1
-                    heapq.heappush(spe_libre,spe_actuelle)
-                    break
-                else:
-                    continue
+                pass
 
     return couple_etu_spe
 
