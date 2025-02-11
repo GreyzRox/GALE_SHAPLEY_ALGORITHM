@@ -113,7 +113,7 @@ def galeshapley_spe(dico_etu,dico_spe,capacite):
 
 def paire_instable(couple_etu_spe,pref_etu,pref_spe):
     """ 
-    Le but de cet algo est de vérifier qu'il N'Y A PAS  de paires instables
+    Le but de cet algo est de vérifier qu'il N'Y A PAS de paires instables
     Logiquement, Cet algo renvoie une liste vide.
     """
     p_instable = []                                                                                                     # Création de la liste des paires potentiellement instable
