@@ -11,12 +11,11 @@ def genere_pref_etu(n):
     c'est donc la longueur de notre dico
     """                     
     liste_spe = [0,1,2,3,4,5,6,7,8]                     # On considère que la liste des specialité est la meme que dans l'énoncé, de 0 à 8
-    dico_pref_etu = {}                                  # On creer un dico qui va contenir des couples (etudiant, liste de preferences)         
-    i = 0                                               # Une variable qui va iterer sur le nombre d'etudiant
+    dico_pref_etu = []                                  # On creer une liste qui va contenir les preferences de chaque etudiant         
     for i in range(n):                          
         temp = liste_spe[:]                             # on fait une copie de liste_spe, sans changer l'original (d'ou [:])
         random.shuffle(temp)                            # on utilise la commande random.shuffle(), qui donne un ordre aléatoire a une liste (merci sdd)
-        dico_pref_etu[i]=temp                           # on associe le couple que l'on stock dans notre dico
+        temp.append(dico_pref_etu)                      # On ajoute cette liste dans notre liste de preferences
     return dico_pref_etu
 
 def genere_pref_spe(n):

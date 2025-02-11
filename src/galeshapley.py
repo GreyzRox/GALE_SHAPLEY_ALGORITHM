@@ -30,50 +30,41 @@ dico_etu = convertisseur_liste_dico(liste_etu)
 liste_spe = PrefEtuSpe.PrefSpe("../data/PrefSpe.txt")
 dico_spe = convertisseur_liste_dico(liste_spe)
 
-capacite = PrefEtuSpe.Capacite_spe("../data/PrefSpe.txt")
-
-# dico_etu ==== {0: [5, 7, 6, 8, 3, 2, 0, 1, 4], 1: [6, 5, 0, 4, 7, 2, 8, 3, 1], 2: [4, 0, 7, 2, 8, 3, 1, 6, 5], 3: [6, 5, 7, 0, 8, 4, 3, 1, 2], 4: [1, 6, 7, 5, 0, 2, 4, 8, 3], 5: [0, 7, 4, 2, 8, 3, 1, 6, 5], 6: [5, 7, 6, 2, 8, 3, 0, 1, 4], 7: [7, 0, 4, 2, 8, 3, 1, 6, 5], 8: [5, 7, 6, 2, 8, 3, 0, 1, 4], 9: [2, 6, 5, 8, 3, 1, 4, 7, 0], 10: [6, 4, 0, 8, 3, 1, 5, 2, 7]}
-# dico_spe ==== {0: [7, 9, 5, 4, 3, 1, 0, 10, 6, 8, 2], 1: [7, 5, 9, 4, 3, 1, 0, 10, 8, 6, 2], 2: [3, 9, 5, 4, 7, 6, 1, 0, 10, 8, 2], 3: [7, 9, 5, 4, 3, 1, 0, 6, 10, 8, 2], 4: [10, 3, 0, 4, 5, 6, 7, 8, 9, 1, 2], 5: [1, 0, 3, 4, 5, 6, 7, 2, 9, 10, 8], 6: [0, 1, 3, 4, 5, 6, 7, 2, 8, 10, 9], 7: [7, 6, 9, 5, 4, 3, 1, 0, 10, 8, 2], 8: [1, 0, 3, 4, 5, 6, 7, 2, 9, 10, 8]}
-# capacite  ==== [2, 1, 1, 1, 1, 1, 1, 1, 2]                                                                                                                                                                                # C'etait un enfer à coder
+capacite = PrefEtuSpe.Capacite_spe("../data/PrefSpe.txt")                                                                                                                                                                              # C'etait un enfer à coder
 
 #Question 3
 
 def galeshapley_etu(liste_etu, liste_spe, capacite):
-    Petu = liste_etu.copy() # On copie la liste des étudiants
-    Pspe = liste_spe.copy() # On copie la liste des spécialités
-    cap = capacite.copy() # On copie la liste des capacités
-    couple_etu_spe = [None] * len(Petu) # On crée une liste vide pour les couples étudiants-spécialités
-    prefSpeIndices = [{etu: idx for idx, etu in enumerate(prefs)} for prefs in Pspe] # On crée une liste de dictionnaires pour les indices des préférences des spécialités
-    spe_tas = [[] for _ in range(len(Pspe))] # On crée une liste de tas pour les spécialités
-    etu_libre = list(range(len(Petu))) # On crée une liste des étudiants libres (de 0 à n-1)
-    while etu_libre: # Tant qu'il reste des étudiants libres
-        etu_act = etu_libre.pop(0) # On prend le premier étudiant de la liste des étudiants libres
-        liste_spe_act = Petu[etu_act] # On prend la liste des spécialités préférées de l'étudiant actuel
-        if liste_spe_act != []: # Si la liste des spécialités préférées n'est pas vide
-            spe_pref = liste_spe_act.pop(0) # On prend la première spécialité de la liste des spécialités préférées
-            if cap[spe_pref] > 0: # Si la capacité de la spécialité préférée est supérieure à 0
-                couple_etu_spe[etu_act] = spe_pref # On ajoute le couple étudiant-spécialité à la liste des couples
-                cap[spe_pref] -= 1 # On décrémente la capacité de la spécialité préférée
-                heapq.heappush(spe_tas[spe_pref], (-prefSpeIndices[spe_pref][etu_act], etu_act)) # On ajoute l'étudiant actuel au tas de la spécialité préférée
+    Petu = liste_etu.copy()                                                                                 # On copie la liste des étudiants
+    Pspe = liste_spe.copy()                                                                                 # On copie la liste des spécialités
+    cap = capacite.copy()                                                                                   # On copie la liste des capacités
+    couple_etu_spe = [None] * len(Petu)                                                                     # On crée une liste vide pour les couples étudiants-spécialités
+    prefSpeIndices = [{etu: idx for idx, etu in enumerate(prefs)} for prefs in Pspe]                        # On crée une liste de dictionnaires pour les indices des préférences des spécialités
+    spe_tas = [[] for _ in range(len(Pspe))]                                                                # On crée une liste de tas pour les spécialités
+    etu_libre = list(range(len(Petu)))                                                                      # On crée une liste des étudiants libres (de 0 à n-1)
+    while etu_libre:                                                                                        # Tant qu'il reste des étudiants libres
+        etu_act = etu_libre.pop(0)                                                                          # On prend le premier étudiant de la liste des étudiants libres
+        liste_spe_act = Petu[etu_act]                                                                       # On prend la liste des spécialités préférées de l'étudiant actuel
+        if liste_spe_act != []:                                                                             # Si la liste des spécialités préférées n'est pas vide
+            spe_pref = liste_spe_act.pop(0)                                                                 # On prend la première spécialité de la liste des spécialités préférées
+            if cap[spe_pref] > 0:                                                                           # Si la capacité de la spécialité préférée est supérieure à 0
+                couple_etu_spe[etu_act] = spe_pref                                                          # On ajoute le couple étudiant-spécialité à la liste des couples
+                cap[spe_pref] -= 1                                                                          # On décrémente la capacité de la spécialité préférée
+                heapq.heappush(spe_tas[spe_pref], (-prefSpeIndices[spe_pref][etu_act], etu_act))            # On ajoute l'étudiant actuel au tas de la spécialité préférée
             else: # Sinon
-                if -prefSpeIndices[spe_pref][etu_act] < spe_tas[spe_pref][0][0]: # Si l'étudiant actuel est préféré à l'étudiant le moins bien classé de la spécialité préférée
-                    etu_libre.append(spe_tas[spe_pref][0][1]) # On ajoute l'étudiant le moins bien classé de la spécialité préférée à la liste des étudiants libres
-                    heapq.heappop(spe_tas[spe_pref]) # On retire l'étudiant le moins bien classé de la spécialité préférée du tas
-                    couple_etu_spe[etu_act] = spe_pref # On ajoute le couple étudiant-spécialité à la liste des couples
-                    heapq.heappush(spe_tas[spe_pref], (-prefSpeIndices[spe_pref][etu_act], etu_act)) # On ajoute l'étudiant actuel au tas de la spécialité préférée
+                if -prefSpeIndices[spe_pref][etu_act] < spe_tas[spe_pref][0][0]:                            # Si l'étudiant actuel est préféré à l'étudiant le moins bien classé de la spécialité préférée
+                    etu_libre.append(spe_tas[spe_pref][0][1])                                               # On ajoute l'étudiant le moins bien classé de la spécialité préférée à la liste des étudiants libres
+                    heapq.heappop(spe_tas[spe_pref])                                                        # On retire l'étudiant le moins bien classé de la spécialité préférée du tas
+                    couple_etu_spe[etu_act] = spe_pref                                                      # On ajoute le couple étudiant-spécialité à la liste des couples
+                    heapq.heappush(spe_tas[spe_pref], (-prefSpeIndices[spe_pref][etu_act], etu_act))        # On ajoute l'étudiant actuel au tas de la spécialité préférée
                 else:
-                    etu_libre.append(etu_act) # On ajoute l'étudiant actuel à la liste des étudiants libres
+                    etu_libre.append(etu_act)                                                               # On ajoute l'étudiant actuel à la liste des étudiants libres
     return couple_etu_spe
 
-# Il faut pas que etu_libre soit un tas
-#print("Côté étudiant  :")
-#debut = time.time()
+
 affectation_etu = galeshapley_etu(liste_etu,liste_spe,capacite)
 print(affectation_etu)
 
-#fin = time.time()
-#temps = fin-debut
-#print("Temps de l'algo côté étu : ",temps," secondes")
 
 #Question 4 :
 
@@ -116,16 +107,6 @@ def galeshapley_spe(dico_etu,dico_spe,capacite):
 
     return couple_etu_spe
 
-#print("Côté parcours :")
-#debut = time.time()
-#affectation_spe = galeshapley_spe(dico_etu,dico_spe,capacite)
-#print(affectation_spe)
-
-#fin = time.time()
-#print("Temps de l'algo côté parcours : ",fin-debut, "secondes")
-
-#Question 5 : voir rapport.md
-
 #Question 6 :
 
 # {7: 7, 5: 0, 3: 8, 9: 2, 10: 4, 1: 5, 0: 6, 4: 1}
@@ -149,7 +130,3 @@ def paire_instable(couple_etu_spe,pref_etu,pref_spe):
             classement+=1
     
     return p_instable
-
-#print("Paire instable côté étu : ",paire_instable(affectation_etu,liste_etu,liste_spe))
-#print("Paire instable côté spé : ",paire_instable(affectation_spe,liste_etu,liste_spe))
-
