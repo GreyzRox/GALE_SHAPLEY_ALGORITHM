@@ -40,4 +40,4 @@ def Capacite_spe(s):
         if ligne.startswith("Cap"):                      # startswith sert a analyser les lignes qui commence par "..." en tant que condition 
                                                             #(c'est Patrick (pratique) merci le chat de m'avoir donné l'idée) 
             capacites = list(map(int, ligne.split()[1:]))# On split chaque element du 1er au dernier element (en skippant l'element 0), puis on map pour convertir en int, 
-                                                            # qu'on met dans une li
+    return capacites                                     # On retourne la liste des capacités

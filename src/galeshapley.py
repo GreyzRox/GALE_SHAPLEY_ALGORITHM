@@ -9,6 +9,7 @@ import PrefEtuSpe
 import heapq
 from collections import deque
 import time
+import copy
 import random
 
 def convertisseur_liste_dico(liste):
@@ -37,64 +38,37 @@ capacite = PrefEtuSpe.Capacite_spe("../data/PrefSpe.txt")
 
 #Question 3
 
-#def galeshapley_etu(dico_etu,dico_spe,capacite):
-#    etu_libre = list(dico_etu.keys())                                                                       # liste des etudiants libres
-#    heapq.heapify(etu_libre)                                                                                # On trie pour avoir le min le plus a gauche
-#    couple_etu_spe =  {}                                                                                    # dico des couple etudiant-spe
-#    files_spe = {spe: [] for spe in dico_spe}                                                               # Dictionnaire contenant chaque specialité en clé, et une liste vide pour l'instant
-#
-#    while etu_libre:
-#        etu = heapq.heappop(etu_libre)                                                                      # Prend le premiere element de la liste, le stock et le suppr de la liste
-#        for spe in dico_etu[etu]:                                                                           # pour chaque specialite dans la liste des specialite de etu
-#            if capacite[spe] > 0:                                                                           # Si la specialite peut accueillir un nouvel etudiant                                                                       
-#                couple_etu_spe[etu] = spe                                                                   # On met dans le dictionnaire : etudiant,specialite
-#                heapq.heappush(files_spe[spe], (recherche_classement_spe(dico_spe, etu, spe), etu))         # on renvoie un tuple qui contient le classement de l'etudiant dans la specialite, et l'etudiant en question
-#                capacite[spe] -= 1                                                                          # On decremente la capacite de la specialite
-#                break                                                                                       # On change du coup d'etudiant
-#            else:                                                                                           # Si par contre la capacite est deja a son max, on essaye de voir si on peut pas virer le "moins bon" etudiant selectionné
-#                pire_etudiant = max(files_spe[spe])                                                         # On définit le pire etudiant comme etant celui
-#                if recherche_classement_spe(dico_spe,etu,spe) < pire_etudiant[0]:                           # Si le classement de l'etudiant dans la spe est meilleure que celui du pire etudiant selectionné, alors on remplace
-#                    files_spe[spe].remove(pire_etudiant)                                                    # On enleve le pire etudiant des specialités
-#                    heapq.heappush(files_spe[spe], (recherche_classement_spe(dico_spe, etu, spe), etu))     # On ajoute le nouvel etudiant dans la file de la specialité
-#                    couple_etu_spe.pop(pire_etudiant[1])                                                    # On supprime l'ancien couple                       
-#                    couple_etu_spe[etu] = spe                                                               # On ajoute le nouveau
-#                    heapq.heappush(etu_libre, pire_etudiant[1])                                             # Le pire etudiant redevient libre (mskn)
-#                    break
-#                else :
-#                    continue
-#    return couple_etu_spe                                                                                                                                                                                                # A l'aide, j'ai recodé cet algo 30 fois
-
-
 def galeshapley_etu(liste_etu, liste_spe, capacite):
-    etu_libre = [i for i in range(len(liste_etu))]
-    couple_etu_spe = []
-    listes_etu_affilie_indice = [[] for _ in range(len(liste_spe))]
-
-    while etu_libre:
-        etu = etu_libre.pop(0)
-        spe_etu = liste_spe[etu]
-        spe_actuelle = spe_etu.popleft()
-        if capacite[spe_actuelle] > 0:
-            couple_etu_spe.append((etu, spe_actuelle))
-            listes_etu_affilie_indice[spe_actuelle].append(etu)
-            capacite[spe_actuelle] -= 1
-        else:
-            worst_etu = max(listes_etu_affilie_indice[spe_actuelle], key=lambda x: liste_spe[spe_actuelle].index(x))
-            if liste_spe[spe_actuelle].index(etu) < liste_spe[spe_actuelle].index(worst_etu):
-                listes_etu_affilie_indice[spe_actuelle].remove(worst_etu)
-                listes_etu_affilie_indice[spe_actuelle].append(etu)
-                couple_etu_spe.remove((worst_etu, spe_actuelle))
-                couple_etu_spe.append((etu, spe_actuelle))
-                etu_libre.append(worst_etu)
-            else:
-                etu_libre.append(etu)
-    return couple_etu_spe        
-
+    Petu = liste_etu.copy() # On copie la liste des étudiants
+    Pspe = liste_spe.copy() # On copie la liste des spécialités
+    cap = capacite.copy() # On copie la liste des capacités
+    couple_etu_spe = [None] * len(Petu) # On crée une liste vide pour les couples étudiants-spécialités
+    prefSpeIndices = [{etu: idx for idx, etu in enumerate(prefs)} for prefs in Pspe] # On crée une liste de dictionnaires pour les indices des préférences des spécialités
+    spe_tas = [[] for _ in range(len(Pspe))] # On crée une liste de tas pour les spécialités
+    etu_libre = list(range(len(Petu))) # On crée une liste des étudiants libres (de 0 à n-1)
+    while etu_libre: # Tant qu'il reste des étudiants libres
+        etu_act = etu_libre.pop(0) # On prend le premier étudiant de la liste des étudiants libres
+        liste_spe_act = Petu[etu_act] # On prend la liste des spécialités préférées de l'étudiant actuel
+        if liste_spe_act != []: # Si la liste des spécialités préférées n'est pas vide
+            spe_pref = liste_spe_act.pop(0) # On prend la première spécialité de la liste des spécialités préférées
+            if cap[spe_pref] > 0: # Si la capacité de la spécialité préférée est supérieure à 0
+                couple_etu_spe[etu_act] = spe_pref # On ajoute le couple étudiant-spécialité à la liste des couples
+                cap[spe_pref] -= 1 # On décrémente la capacité de la spécialité préférée
+                heapq.heappush(spe_tas[spe_pref], (-prefSpeIndices[spe_pref][etu_act], etu_act)) # On ajoute l'étudiant actuel au tas de la spécialité préférée
+            else: # Sinon
+                if -prefSpeIndices[spe_pref][etu_act] < spe_tas[spe_pref][0][0]: # Si l'étudiant actuel est préféré à l'étudiant le moins bien classé de la spécialité préférée
+                    etu_libre.append(spe_tas[spe_pref][0][1]) # On ajoute l'étudiant le moins bien classé de la spécialité préférée à la liste des étudiants libres
+                    heapq.heappop(spe_tas[spe_pref]) # On retire l'étudiant le moins bien classé de la spécialité préférée du tas
+                    couple_etu_spe[etu_act] = spe_pref # On ajoute le couple étudiant-spécialité à la liste des couples
+                    heapq.heappush(spe_tas[spe_pref], (-prefSpeIndices[spe_pref][etu_act], etu_act)) # On ajoute l'étudiant actuel au tas de la spécialité préférée
+                else:
+                    etu_libre.append(etu_act) # On ajoute l'étudiant actuel à la liste des étudiants libres
+    return couple_etu_spe
 
 # Il faut pas que etu_libre soit un tas
 #print("Côté étudiant  :")
 #debut = time.time()
-affectation_etu = galeshapley_etu(dico_etu,dico_spe,capacite)
+affectation_etu = galeshapley_etu(liste_etu,liste_spe,capacite)
 print(affectation_etu)
 
 #fin = time.time()

@@ -51,4 +51,12 @@ def temps_spe():                                                                
 def plot_temps(liste_moyenne_temps_etu, liste_moyenne_temps_spe):
     n_values = [200 * (i + 1) for i in range(len(liste_moyenne_temps_etu))]
     plt.plot(n_values, liste_moyenne_temps_etu, marker='o', linestyle='-', color='b', label='Étudiants')
-    plt.plot(n_values, liste_moyenne_temps_spe, marker='x', linestyle='-', colo
+    plt.plot(n_values, liste_moyenne_temps_spe, marker='x', linestyle='-', color='r', label='Spécialités')
+    plt.title("Temps moyen d'exécution en fonction de n")  
+    plt.xlabel("Nombre d'étudiants (n)")  
+    plt.ylabel("Temps moyen (en secondes)")
+    plt.legend()
+    plt.grid(True)  
+    plt.show()
+    
+main()
