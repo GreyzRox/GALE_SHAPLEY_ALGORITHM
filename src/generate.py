@@ -38,7 +38,8 @@ def genere_pref_spe(n):
 def genere_capacite(n,nb_spe):
     """
     n correspond au nombre total de place dispo,
-    egalement le nombre d'etudiant. nb_spe correspond le nombre de specialités
+    egalement le nombre d'etudiant.
+    nb_spe correspond le nombre de specialités
     """                         
     nb_deterministe = n//nb_spe                         # On divise n par nb_spe pour avoir une idée de combien de place va avoir chaque spe
     reste = n%nb_spe                                    # Calcul du reste au cas ou la division n'est pas ronde
