@@ -10,6 +10,7 @@ import heapq
 from collections import deque
 import time
 import copy
+from copy import deepcopy
 import random
 
 liste_etu = PrefEtuSpe.PrefEtu("../data/PrefEtu.txt")
@@ -19,8 +20,8 @@ capacite = PrefEtuSpe.Capacite_spe("../data/PrefSpe.txt")                       
 #Question 3
 
 def galeshapley_etu(liste_etu, liste_spe, capacite):
-    Petu = liste_etu.copy()                                                                                 # On copie la liste des étudiants
-    Pspe = liste_spe.copy()                                                                                 # On copie la liste des spécialités
+    Petu = deepcopy(liste_etu)                                                                              # On copie la liste des étudiants        
+    Pspe = deepcopy(liste_spe)                                                                              # On copie la liste des spécialités
     cap = capacite.copy()                                                                                   # On copie la liste des capacités
     couple_etu_spe = [None] * len(Petu)                                                                     # On crée une liste vide pour les couples étudiants-spécialités
     prefSpeIndices = [{etu: idx for idx, etu in enumerate(prefs)} for prefs in Pspe]                        # On crée une liste de dictionnaires pour les indices des préférences des spécialités
@@ -109,3 +110,5 @@ def paire_instable(couple_etu_spe,pref_etu,pref_spe):
     
     return p_instable
 
+print(galeshapley_etu(liste_etu,liste_spe,capacite))
+print(galeshapley_spe(liste_etu,liste_spe,capacite))
