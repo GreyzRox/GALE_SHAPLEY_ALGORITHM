@@ -112,4 +112,4 @@ def paire_instable(couple_etu_spe,liste_etu,liste_spe):
 
 affect_etu = galeshapley_etu(liste_etu,liste_spe,capacite)
 affect_spe = galeshapley_spe(liste_etu,liste_spe,capacite)
-print(paire_instable(affect_etu,liste_etu,liste_spe))
+#print(paire_instable(affect_etu,liste_etu,liste_spe))
