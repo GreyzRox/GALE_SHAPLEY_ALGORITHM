@@ -5,7 +5,7 @@ import generate
 import time
 import matplotlib.pyplot as plt
 
-GRAPH = True
+GRAPH = True                                                                                                                        # Constante pour generer le graph                                           
 
 def main():                                             
     if GRAPH:                                                                                                                       # Si l'on veut generer le graph, alors nous devons changer la valeur de la constante GRAPH
@@ -49,13 +49,14 @@ def temps_spe():                                                                
     return liste_moyenne_temps
 
 def plot_temps(liste_moyenne_temps_etu, liste_moyenne_temps_spe):
-    n_values = [200 * (i + 1) for i in range(len(liste_moyenne_temps_etu))]
-    plt.plot(n_values, liste_moyenne_temps_etu, marker='o', linestyle='-', color='b', label='Étudiants')
-    plt.plot(n_values, liste_moyenne_temps_spe, marker='x', linestyle='-', color='r', label='Spécialités')
-    plt.title("Temps moyen d'exécution en fonction de n")  
-    plt.xlabel("Nombre d'étudiants (n)")  
-    plt.ylabel("Temps moyen (en secondes)")
-    plt.legend()
-    plt.grid(True)  
-    plt.show()
+    n_values = [200 * (i + 1) for i in range(len(liste_moyenne_temps_etu))]                                                         # On crée une liste de n allant de 200 à 2000
+    plt.plot(n_values, liste_moyenne_temps_etu, marker='o', linestyle='-', color='b', label='Étudiants')                            # On plot les temps moyens obtenus pour les etudiants
+    plt.plot(n_values, liste_moyenne_temps_spe, marker='x', linestyle='-', color='r', label='Spécialités')                          # On plot les temps moyens obtenus pour les spécialités
+    plt.title("Temps moyen d'exécution en fonction de n")                                                                           # On ajoute un titre                                        
+    plt.xlabel("Nombre d'étudiants (n)")                                                                                            # On ajoute un titre pour l'axe des x       
+    plt.ylabel("Temps moyen (en secondes)")                                                                                         # On ajoute un titre pour l'axe des y   
+    plt.legend()                                                                                                                    # On ajoute une légende                 
+    plt.grid(True)                                                                                                                  # On ajoute une grille            
+    plt.show()                                                                                                                      # On affiche le graphique
+                         
 main()
