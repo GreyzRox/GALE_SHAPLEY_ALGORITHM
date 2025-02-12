@@ -58,5 +58,5 @@ def plot_temps(liste_moyenne_temps_etu, liste_moyenne_temps_spe):
     plt.legend()
     plt.grid(True)  
     plt.show()
-    
+  
 main()

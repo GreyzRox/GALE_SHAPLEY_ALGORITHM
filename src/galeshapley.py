@@ -12,24 +12,8 @@ import time
 import copy
 import random
 
-def convertisseur_liste_dico(liste):
-     return {i: prefs for i, prefs in enumerate(liste)}
-
-def recherche_classement_spe(dico,i,spe):
-    if spe not in dico:  # Vérifie que la spécialité existe bien
-            return -1  # Un très grand nombre pour éviter les erreurs
-        
-    for rang, etu in enumerate(dico[spe]):
-        if etu == i:
-            return rang
-    return -1
-
 liste_etu = PrefEtuSpe.PrefEtu("../data/PrefEtu.txt")
-dico_etu = convertisseur_liste_dico(liste_etu)
-
 liste_spe = PrefEtuSpe.PrefSpe("../data/PrefSpe.txt")
-dico_spe = convertisseur_liste_dico(liste_spe)
-
 capacite = PrefEtuSpe.Capacite_spe("../data/PrefSpe.txt")                                                                                                                                                                              # C'etait un enfer à coder
 
 #Question 3
@@ -61,22 +45,20 @@ def galeshapley_etu(liste_etu, liste_spe, capacite):
                     etu_libre.append(etu_act)                                                               # On ajoute l'étudiant actuel à la liste des étudiants libres
     return couple_etu_spe
 
-
-affectation_etu = galeshapley_etu(liste_etu,liste_spe,capacite)
-print(affectation_etu)
-
-
 #Question 4 :
 
-def galeshapley_spe(dico_etu,dico_spe,capacite):
+liste_etu = PrefEtuSpe.PrefEtu("../data/PrefEtu.txt")
+liste_spe = PrefEtuSpe.PrefSpe("../data/PrefSpe.txt")
+capacite = PrefEtuSpe.Capacite_spe("../data/PrefSpe.txt")
+ 
+def galeshapley_spe(liste_etu,liste_spe,capacite):
     
     # Utilisation de deque pour les spécialités libres
-    spe_libre = deque([spe for spe in dico_spe])
+    spe_libre = deque(range(len(liste_spe)))
     
-   # Créer un dictionnaire pour suivre les préférences des spécialités pour chaque étudiant
-    spe_preferences = {spe: deque(dico_spe[spe]) for spe in dico_spe}
-    
-    couple_etu_spe =  {}
+   # Création de la liste des préférences des spécialités pour chaque étudiant
+    spe_preferences = [deque(liste_spe[spe]) for spe in range(len(liste_spe))]
+    couple_etu_spe =  [None] * (len(liste_etu))
 
     while spe_libre:
         spe = spe_libre.popleft()
@@ -86,30 +68,30 @@ def galeshapley_spe(dico_etu,dico_spe,capacite):
         
         # Extraire l'étudiant préféré (le premier de la liste de préférences de la spécialité)
         etu = spe_preferences[spe].popleft()
-        
-        if etu not in couple_etu_spe:
+        if couple_etu_spe[etu] is None:
             couple_etu_spe[etu]=spe
             capacite[spe] -=1
             if capacite[spe]>0:
                spe_libre.append(spe)
         else:
             spe_actuelle = couple_etu_spe[etu]
-            if recherche_classement_spe(dico_etu, spe, etu)<recherche_classement_spe(dico_etu, spe_actuelle, etu):
+            classement_spe = liste_etu[etu].index(spe)
+            classement_spe_actuelle = liste_etu[etu].index(spe_actuelle)            
+            if classement_spe < classement_spe_actuelle:
                 couple_etu_spe[etu] = spe
                 capacite[spe] -=1
                 capacite[spe_actuelle] +=1
+                
                 if capacite[spe_actuelle] > 0:
                     spe_libre.append(spe_actuelle)  # On remet l'ancienne spécialité dans la deque si elle a encore de la place
                 if capacite[spe] > 0:
                     spe_libre.append(spe)
             else:
-                pass
+                spe_libre.append(spe)
 
     return couple_etu_spe
 
 #Question 6 :
-
-# {7: 7, 5: 0, 3: 8, 9: 2, 10: 4, 1: 5, 0: 6, 4: 1}
 
 def paire_instable(couple_etu_spe,pref_etu,pref_spe):
     """ 
