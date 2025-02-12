@@ -36,7 +36,7 @@ def galeshapley_etu(liste_etu, liste_spe, capacite):
                 couple_etu_spe[etu_act] = spe_pref                                                          # On ajoute le couple étudiant-spécialité à la liste des couples
                 cap[spe_pref] -= 1                                                                          # On décrémente la capacité de la spécialité préférée
                 heapq.heappush(spe_tas[spe_pref], (-prefSpeIndices[spe_pref][etu_act], etu_act))            # On ajoute l'étudiant actuel au tas de la spécialité préférée
-            else: # Sinon
+            else: 
                 if -prefSpeIndices[spe_pref][etu_act] < spe_tas[spe_pref][0][0]:                            # Si l'étudiant actuel est préféré à l'étudiant le moins bien classé de la spécialité préférée
                     etu_libre.append(spe_tas[spe_pref][0][1])                                               # On ajoute l'étudiant le moins bien classé de la spécialité préférée à la liste des étudiants libres
                     heapq.heappop(spe_tas[spe_pref])                                                        # On retire l'étudiant le moins bien classé de la spécialité préférée du tas
@@ -90,7 +90,7 @@ def galeshapley_spe(liste_etu,liste_spe,capacite):                              
 
 #Question 6 :
 
-def paire_instable(couple_etu_spe,pref_etu,pref_spe):
+def paire_instable(couple_etu_spe,liste_etu,liste_spe):
     """ 
     Le but de cet algo est de vérifier qu'il N'Y A PAS de paires instables
     Logiquement, Cet algo renvoie une liste vide.
@@ -99,16 +99,17 @@ def paire_instable(couple_etu_spe,pref_etu,pref_spe):
     for etu_courant in couple_etu_spe:                                                                                  # On parcourt chaque couple
         spe_courante = couple_etu_spe[etu_courant]                                                                      # On isole la specialité lié au couple
         classement=0                                                                                                    # On créer un classement, ce qui va nous permettre de comparer
-        while pref_spe[spe_courante][classement] != etu_courant:                                                        # Tant que notre etudiant est different de celui de l'iteration
-            etu_a_comparer = pref_spe[spe_courante][classement]                                                         # On extrait l'etudiant qui est a la position classement de la spe_courante
+        while liste_spe[spe_courante][classement] != etu_courant:                                                       # Tant que notre etudiant est different de celui de l'iteration
+            etu_a_comparer = liste_spe[spe_courante][classement]                                                         # On extrait l'etudiant qui est a la position classement de la spe_courante
             spe_etu_a_comparer = couple_etu_spe[etu_a_comparer]                                                         # On Regarde la specialite de l'etu a comparer dans la liste de couple
-            if (pref_spe[spe_etu_a_comparer].index(etu_courant)<pref_spe[spe_etu_a_comparer].index(etu_a_comparer)      # Si l'étudiant etu_courant préfère la spécialité de l'étudiant etu_a_comparer
-                    and pref_etu[etu_courant].index(spe_etu_a_comparer)<pref_etu[etu_courant].index(spe_courante)):         # à la sienne et si la spécialité de etu_a_comparer préfère etu_courant à l'étudiant qu'elle lui a actuellement attribué, ce qui créerait une paire instable.
+            if (liste_spe[spe_etu_a_comparer].index(etu_courant)<liste_spe[spe_etu_a_comparer].index(etu_a_comparer)      # Si l'étudiant etu_courant préfère la spécialité de l'étudiant etu_a_comparer
+                    and liste_etu[etu_courant].index(spe_etu_a_comparer)<liste_etu[etu_courant].index(spe_courante)):         # à la sienne et si la spécialité de etu_a_comparer préfère etu_courant à l'étudiant qu'elle lui a actuellement attribué, ce qui créerait une paire instable.
                     
                 p_instable.append((etu_courant,spe_etu_a_comparer))                                                     # On ajoute la paire instable
             classement+=1
     
     return p_instable
 
-print(galeshapley_etu(liste_etu,liste_spe,capacite))
-print(galeshapley_spe(liste_etu,liste_spe,capacite))
+affect_etu = galeshapley_etu(liste_etu,liste_spe,capacite)
+affect_spe = galeshapley_spe(liste_etu,liste_spe,capacite)
+print(paire_instable(affect_etu,liste_etu,liste_spe))
