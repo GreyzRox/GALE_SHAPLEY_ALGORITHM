@@ -8,10 +8,10 @@ import matplotlib.pyplot as plt
 GRAPH = True
 
 def main():                                             
-    if GRAPH:                                           # Si l'on veut generer le graph, alors nous devons changer la valeur de la constante GRAPH
-        plot_temps(temps_etu(),temps_spe())             # On appelle alors la fonction plot_temps()
-    else:
-        temps_etu()                                     # Sinon on appelle seulement le temps d'execution pour etu et pour temps
+    if GRAPH:                                                                                                                       # Si l'on veut generer le graph, alors nous devons changer la valeur de la constante GRAPH
+        plot_temps(temps_etu(),temps_spe())                                                                                         # On appelle alors la fonction plot_temps()
+    else:                                                                           
+        temps_etu()                                                                                                                 # Sinon on appelle seulement le temps d'execution pour etu et pour temps
         temps_spe()
 
 def temps_etu():
@@ -58,5 +58,5 @@ def plot_temps(liste_moyenne_temps_etu, liste_moyenne_temps_spe):
     plt.legend()
     plt.grid(True)  
     plt.show()
-    
+
 main()
