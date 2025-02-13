@@ -113,3 +113,6 @@ def paire_instable(couple_etu_spe,liste_etu,liste_spe):
             classement += 1
     
     return p_instable
+
+print(galeshapley_etu(liste_etu,liste_spe,capacite))
+print(galeshapley_spe(liste_etu,liste_spe,capacite))
