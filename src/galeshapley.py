@@ -35,13 +35,13 @@ def galeshapley_etu(liste_etu, liste_spe, capacite):
             if cap[spe_pref] > 0:                                                                           # Si la capacité de la spécialité préférée est supérieure à 0
                 couple_etu_spe[etu_act] = spe_pref                                                          # On ajoute le couple étudiant-spécialité à la liste des couples
                 cap[spe_pref] -= 1                                                                          # On décrémente la capacité de la spécialité préférée
-                heapq.heappush(spe_tas[spe_pref], (-prefSpeIndices[spe_pref][etu_act], etu_act))            # On ajoute l'étudiant actuel au tas de la spécialité préférée
+                heapq.heappush(spe_tas[spe_pref], (prefSpeIndices[spe_pref][etu_act], etu_act))            # On ajoute l'étudiant actuel au tas de la spécialité préférée
             else: 
-                if -prefSpeIndices[spe_pref][etu_act] < spe_tas[spe_pref][0][0]:                            # Si l'étudiant actuel est préféré à l'étudiant le moins bien classé de la spécialité préférée
+                if prefSpeIndices[spe_pref][etu_act] < spe_tas[spe_pref][0][0]:                            # Si l'étudiant actuel est préféré à l'étudiant le moins bien classé de la spécialité préférée
                     etu_libre.append(spe_tas[spe_pref][0][1])                                               # On ajoute l'étudiant le moins bien classé de la spécialité préférée à la liste des étudiants libres
                     heapq.heappop(spe_tas[spe_pref])                                                        # On retire l'étudiant le moins bien classé de la spécialité préférée du tas
                     couple_etu_spe[etu_act] = spe_pref                                                      # On ajoute le couple étudiant-spécialité à la liste des couples
-                    heapq.heappush(spe_tas[spe_pref], (-prefSpeIndices[spe_pref][etu_act], etu_act))        # On ajoute l'étudiant actuel au tas de la spécialité préférée
+                    heapq.heappush(spe_tas[spe_pref], (prefSpeIndices[spe_pref][etu_act], etu_act))        # On ajoute l'étudiant actuel au tas de la spécialité préférée
                 else:
                     etu_libre.append(etu_act)                                                               # On ajoute l'étudiant actuel à la liste des étudiants libres
     return couple_etu_spe
@@ -113,7 +113,3 @@ def paire_instable(couple_etu_spe,liste_etu,liste_spe):
             classement += 1
     
     return p_instable
-
-affect_etu = galeshapley_etu(liste_etu,liste_spe,capacite)
-affect_spe = galeshapley_spe(liste_etu,liste_spe,capacite)
-#print(paire_instable(affect_etu,liste_etu,liste_spe))

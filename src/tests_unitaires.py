@@ -54,12 +54,14 @@ class TestGaleShapley(unittest.TestCase):
         result = galeshapley.galeshapley_etu(self.liste_etu, self.liste_spe, self.capacite)
         self.assertIsInstance(result, list)
         self.assertEqual(len(result), len(self.liste_etu))
+        self.assertEqual(galeshapley.paire_instable(result,self.liste_etu,self.liste_spe),[])
         print("fonction galeshapley_etu : OK")
 
     def test_galeshapley_spe(self):
         result = galeshapley.galeshapley_spe(self.liste_etu, self.liste_spe, self.capacite)
         self.assertIsInstance(result, list)
         self.assertEqual(len(result), len(self.liste_etu))
+        self.assertEqual(galeshapley.paire_instable(result,self.liste_etu,self.liste_spe),[])
         print("fonction galeshapley_spe : OK")
 
 class TestGenerate(unittest.TestCase):
