@@ -1,0 +1,14 @@
+
+Gurobi 8.0.1 (linux64) logging started Thu Feb 13 13:57:47 2025
+
+
+Gurobi Optimizer version 8.0.1 build v8.0.1rc0 (linux64)
+Copyright (c) 2018, Gurobi Optimization, LLC
+
+Error reading LP format file assignment_max_somme_u_k_premiers.lp at line 1
+Malformed term in expression
+Neighboring tokens: " 9 * x0_0 + 5 * x0_1 + 1 * "
+
+
+ERROR 10012: Unable to read file
+

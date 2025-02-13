@@ -101,7 +101,7 @@ def generate_lp_file_max_u_min(students, specialties, capacities,scores, filenam
     print(f"Fichier {filename} généré avec succès.")
     
 
-def generer_fichier_lp_max_somme_u(students, specialties, capacities, scores, filename="assignment_max_somme_u.lp"):
+def generate_lp_fichier_max_somme_u(students, specialties, capacities, scores, filename="assignment_max_somme_u.lp"):
     """
     Génère un fichier .lp pour le problème d'affectation.
 
@@ -142,6 +142,49 @@ def generer_fichier_lp_max_somme_u(students, specialties, capacities, scores, fi
 
     print(f"Fichier {filename} généré avec succès.")
 
+def generate_lp_fichier_max_somme_u_k_premiers(students, specialties, capacities, scores, k, filename="assignment_max_somme_u_k_premiers.lp"):
+    """
+    Génère un fichier .lp pour le problème d'affectation.
+
+    :param etudiants: Liste des étudiants.
+    :param parcours: Liste des parcours.
+    :param scores: Liste de listes des scores (utilités), où scores[i][j] est le score de l'étudiant i pour le parcours j.
+    :param capacites: Liste des capacités des parcours, où capacites[j] est la capacité du parcours j.
+    :param nom_fichier: Nom du fichier .lp à générer.
+    """
+
+    with open(filename, "w") as f:
+        # Début du fichier .lp
+        f.write("Maximize\n")
+        f.write("obj: ")
+
+        # Fonction objectif (somme des utilités)
+        f.write(" + ".join(f"{scores[i][j]} * x{i}_{j}" for i in students for j in specialties))
+        f.write("\n")
+
+        f.write("Subject To\n")
+
+        # Contrainte 1 : Chaque étudiant est affecté à exactement une spécialité parmi ses k premières préférences
+        for i in students:
+            top_k_choices = preferences[i][:k]  # On garde seulement les k premiers choix
+            f.write(f"c_etudiant_{i}: " + " + ".join(f"x{i}_{j}" for j in top_k_choices) + " = 1\n")
+
+        # Contrainte 2 : Respect des capacités des spécialités
+        for j in specialties:
+            if students:
+                f.write(f"c_capacite_{j}: " + " + ".join(f"x{i}_{j}" for i in students) + f" <= {capacities[j]}\n")
+
+
+        # Variables binaires
+        f.write("Binary\n")
+        f.write(" ".join(f"x{i}_{j}" for i in students for j in specialties))
+        f.write("\n")
+
+        f.write("End\n")
+
+    print(f"Fichier {filename} généré avec succès.")
+
+
 # Exemple d'utilisation :
 students = [i for i in range(11)]  # 11 étudiants
 specialties = [i for i in range(9)]  # 9 spécialités
@@ -149,8 +192,9 @@ capacities = [2, 1, 1, 1, 1, 1, 1, 1, 2]  # Capacité de chaque spécialité
 preferences = generate.genere_pref_etu(11)
 scores = compute_borda_scores(preferences,len(specialties))
 
-k = 3  # On limite aux 4 premières préférences
+k = 3  # On limite aux 3 premières préférences
 
 generate_lp_file_k_premiers(students, specialties, capacities, preferences, k)
 generate_lp_file_max_u_min(students,specialties,capacities,scores)
-generer_fichier_lp_max_somme_u(students,specialties,capacities,scores)
+generate_lp_fichier_max_somme_u(students,specialties,capacities,scores)
+generate_lp_fichier_max_somme_u_k_premiers(students,specialties,capacities, scores, 3)
