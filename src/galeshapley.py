@@ -95,24 +95,22 @@ def paire_instable(couple_etu_spe,liste_etu,liste_spe):
     Le but de cet algo est de vérifier qu'il N'Y A PAS de paires instables
     Logiquement, Cet algo renvoie une liste vide.
     """
-    p_instable = []                                                                                                     # Création de la liste des paires potentiellement instable
+    p_instable = []                                                                                                                 # Création de la liste des paires potentiellement instable
     for etu_courant in range(len(couple_etu_spe)):                                                                                  # On parcourt chaque couple
-        spe_courante = couple_etu_spe[etu_courant]                                                                      # On isole la specialité lié au couple
+        spe_courante = couple_etu_spe[etu_courant]                                                                                  # On isole la specialité lié au couple
         
-        classement=0                                                                                                    # On créer un classement, ce qui va nous permettre de comparer
-        while liste_spe[spe_courante][classement] != etu_courant:                                                       # Tant que notre etudiant est different de celui de l'iteration
-            etu_a_comparer = liste_spe[spe_courante][classement]                                                         # On extrait l'etudiant qui est a la position classement de la spe_courante
+        classement=0                                                                                                                # On créer un classement, ce qui va nous permettre de comparer
+        while liste_spe[spe_courante][classement] != etu_courant:                                                                   # Tant que notre etudiant est different de celui de l'iteration
+            etu_a_comparer = liste_spe[spe_courante][classement]                                                                    # On extrait l'etudiant qui est a la position classement de la spe_courante
             
-            if etu_a_comparer < len(couple_etu_spe):  # Vérifie que l'étudiant a bien une spécialité attribuée
+            if etu_a_comparer < len(couple_etu_spe):                                                                                # Vérifie que l'étudiant a bien une spécialité attribuée
                 spe_etu_a_comparer = couple_etu_spe[etu_a_comparer]  
 
-                # Vérification de la paire instable :
-                if (liste_spe[spe_etu_a_comparer].index(etu_courant)<liste_spe[spe_etu_a_comparer].index(etu_a_comparer) and liste_etu[etu_courant].index(spe_etu_a_comparer)<liste_etu[etu_courant].index(spe_courante)):   
+                                                                                                                                    # Vérification de la paire instable :
+                if (liste_spe[spe_etu_a_comparer].index(etu_courant)<liste_spe[spe_etu_a_comparer].index(etu_a_comparer) and
+                 liste_etu[etu_courant].index(spe_etu_a_comparer)<liste_etu[etu_courant].index(spe_courante)):   
                     p_instable.append((etu_courant, spe_etu_a_comparer))  
 
             classement += 1
     
     return p_instable
-
-print(galeshapley_etu(liste_etu,liste_spe,capacite))
-print(galeshapley_spe(liste_etu,liste_spe,capacite))

@@ -5,12 +5,12 @@ import generate
 import time
 import matplotlib.pyplot as plt
 
-GRAPH = True                                                                                                                        # Constante pour generer le graph                                           
+GRAPH = True
 
 def main():                                             
     if GRAPH:                                                                                                                       # Si l'on veut generer le graph, alors nous devons changer la valeur de la constante GRAPH
         plot_temps(temps_etu(),temps_spe())                                                                                         # On appelle alors la fonction plot_temps()
-    else:                                                                           
+    else:
         temps_etu()                                                                                                                 # Sinon on appelle seulement le temps d'execution pour etu et pour temps
         temps_spe()
 
@@ -48,15 +48,27 @@ def temps_spe():                                                                
     print (liste_moyenne_temps)
     return liste_moyenne_temps
 
-def plot_temps(liste_moyenne_temps_etu, liste_moyenne_temps_spe):
-    n_values = [200 * (i + 1) for i in range(len(liste_moyenne_temps_etu))]                                                         # On crée une liste de n allant de 200 à 2000
-    plt.plot(n_values, liste_moyenne_temps_etu, marker='o', linestyle='-', color='b', label='Étudiants')                            # On plot les temps moyens obtenus pour les etudiants
-    plt.plot(n_values, liste_moyenne_temps_spe, marker='x', linestyle='-', color='r', label='Spécialités')                          # On plot les temps moyens obtenus pour les spécialités
-    plt.title("Temps moyen d'exécution en fonction de n")                                                                           # On ajoute un titre                                        
-    plt.xlabel("Nombre d'étudiants (n)")                                                                                            # On ajoute un titre pour l'axe des x       
-    plt.ylabel("Temps moyen (en secondes)")                                                                                         # On ajoute un titre pour l'axe des y   
-    plt.legend()                                                                                                                    # On ajoute une légende                 
-    plt.grid(True)                                                                                                                  # On ajoute une grille            
-    plt.show()                                                                                                                      # On affiche le graphique
-                         
+def plot_temps(liste_moyenne_temps_etu, liste_moyenne_temps_spe):                                                                   
+    n_values = [200 * (i + 1) for i in range(len(liste_moyenne_temps_etu))]                                                         # On affecte les multiples de 200 pour chaque valeur de la liste de moyenne (n * liste_moyenne_temps_spe[i])
+    plt.plot(n_values, liste_moyenne_temps_etu, marker='o', linestyle='-', color='b', label='Étudiants')                            # On trace la moyenne de etu, de couleur bleu
+    plt.plot(n_values, liste_moyenne_temps_spe, marker='x', linestyle='-', color='r', label='Spécialités')                          # On trace la moyenne de spe, de couleur rouge
+    plt.title("Temps moyen d'exécution en fonction de n")                                                                           # titre du graphe
+    plt.xlabel("Nombre d'étudiants (n)")                                                                                            # label de x
+    plt.ylabel("Temps moyen (en secondes)")                                                                                         # label de y
+    plt.legend()
+    plt.grid(True)                                                                                                                  # affichage de la grille
+    plt.show()                                                                                                                      # affichage du graphe
+
+
+def plot_it(liste_moyenne_it_etu, liste_moyenne_it_spe):                                                                   
+    n_values = [200 + 50 * i for i in range(len(liste_moyenne_it_etu))] 
+    plt.plot(n_values, liste_moyenne_it_etu, marker='o', linestyle='-', color='b', label='Étudiants')
+    plt.plot(n_values, liste_moyenne_it_spe, marker='x', linestyle='-', color='r', label='Spécialités')  
+    plt.title("Nombre moyen d'itérations en fonction de n") 
+    plt.xlabel("Nombre d'étudiants (n)") 
+    plt.ylabel("Nombre moyen d'itérations") 
+    plt.legend()
+    plt.grid(True)
+    plt.show()  
+
 main()
