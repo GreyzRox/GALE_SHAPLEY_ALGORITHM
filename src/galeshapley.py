@@ -54,35 +54,39 @@ capacite = PrefEtuSpe.Capacite_spe("../data/PrefSpe.txt")
  
 def galeshapley_spe(liste_etu,liste_spe,capacite):                                                          # On reprend les listes de préférences des étudiants et des spécialités, et la capacité des spécialités 
     
-    spe_libre = deque(range(len(liste_spe)))                                                                # On crée une deque pour les spécialités libres 
+    etu_copie = deepcopy(liste_etu)
+    spe_copie = deepcopy(liste_spe)
+    capacite_copie = capacite.copy()
     
-    spe_preferences = [deque(liste_spe[spe]) for spe in range(len(liste_spe))]                              # On crée une deque pour les préférences des spécialités    
-    couple_etu_spe =  [None] * (len(liste_etu))                                                             # On crée une liste vide pour les couples étudiants-spécialités 
+    spe_libre = deque(range(len(spe_copie)))                                                                # On crée une deque pour les spécialités libres 
+    
+    spe_preferences = [deque(spe_copie[spe]) for spe in range(len(liste_spe))]                              # On crée une deque pour les préférences des spécialités    
+    couple_etu_spe =  [None] * (len(etu_copie))                                                             # On crée une liste vide pour les couples étudiants-spécialités 
 
     while spe_libre:                                                                                        # Tant qu'il reste des spécialités libres                                   
         spe = spe_libre.popleft()                                                                           # On prend la première spécialité de la deque des spécialités libres    
         
-        if capacite[spe] == 0:                                                                              # Si la capacité de la spécialité est égale à 0                                       
+        if capacite_copie[spe] == 0:                                                                              # Si la capacité de la spécialité est égale à 0                                       
             continue
         
         etu = spe_preferences[spe].popleft()                                                                # On prend le premier étudiant de la deque des préférences de la spécialité 
         if couple_etu_spe[etu] is None:                                                                     # Si l'étudiant n'a pas de spécialité attribuée
             couple_etu_spe[etu]=spe                                                                         # On attribue la spécialité à l'étudiant
-            capacite[spe] -=1                                                                               # On décrémente la capacité de la spécialité    
-            if capacite[spe]>0:                                                                             # Si la capacité de la spécialité est supérieure à 0    
+            capacite_copie[spe] -=1                                                                               # On décrémente la capacité de la spécialité    
+            if capacite_copie[spe]>0:                                                                             # Si la capacité de la spécialité est supérieure à 0    
                spe_libre.append(spe)                                                                        # On remet la spécialité dans la deque des spécialités libres                                               
         else:
             spe_actuelle = couple_etu_spe[etu]                                                              # On prend la spécialité actuelle de l'étudiant                                                   
-            classement_spe = liste_etu[etu].index(spe)                                                      # On prend le classement de la spécialité dans la liste des préférences de l'étudiant   
-            classement_spe_actuelle = liste_etu[etu].index(spe_actuelle)                                    # On prend le classement de la spécialité actuelle dans la liste des préférences de l'étudiant
+            classement_spe = etu_copie[etu].index(spe)                                                      # On prend le classement de la spécialité dans la liste des préférences de l'étudiant   
+            classement_spe_actuelle = etu_copie[etu].index(spe_actuelle)                                    # On prend le classement de la spécialité actuelle dans la liste des préférences de l'étudiant
             if classement_spe < classement_spe_actuelle:                                                    # Si la spécialité est mieux classée que la spécialité actuelle 
                 couple_etu_spe[etu] = spe                                                                   # On attribue la spécialité à l'étudiant                                               
-                capacite[spe] -=1                                                                           # On décrémente la capacité de la spécialité
-                capacite[spe_actuelle] +=1                                                                  # On incrémente la capacité de la spécialité actuelle
+                capacite_copie[spe] -=1                                                                           # On décrémente la capacité de la spécialité
+                capacite_copie[spe_actuelle] +=1                                                                  # On incrémente la capacité de la spécialité actuelle
                 
-                if capacite[spe_actuelle] > 0:                                                              # Si la capacité de la spécialité actuelle est supérieure à 0
+                if capacite_copie[spe_actuelle] > 0:                                                              # Si la capacité de la spécialité actuelle est supérieure à 0
                     spe_libre.append(spe_actuelle)                                                          # On remet l'ancienne spécialité dans la deque si elle a encore de la place
-                if capacite[spe] > 0:                                                                       # Si la capacité de la nouvelle spécialité est supérieure à 0
+                if capacite_copie[spe] > 0:                                                                       # Si la capacité de la nouvelle spécialité est supérieure à 0
                     spe_libre.append(spe)                                                                   # On remet la nouvelle spécialité dans la deque si elle a encore de la place
             else:
                 spe_libre.append(spe)                                                                       # On remet la spécialité dans la deque des spécialités libres
